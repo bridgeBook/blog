@@ -1,6 +1,7 @@
 import '../index.css'
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 
 const ArticleList = () => {
     const [posts, setPosts] = useState<any>();
@@ -17,17 +18,22 @@ const ArticleList = () => {
         fetchPosts();
     }, []);
 
+    console.log(posts)
+
     const Article = () => {
         if (!posts) return <div>Loading...</div>;
         return (
             <>
                 {
                     posts.data.slice(0, 6).map((post: any) =>
-                        <div className="article">
-                            <div>
-                                {post.title}
+
+                        <Link to={`/PostView/${post._id}`}>
+                            <div className="article">
+                                <div className='content-title'>{post.title}</div>
+                                <div className='content'>{post.content}</div>
+                                <div className='updated-time'>{post.updatedAt.substr(0, 10)}</div>
                             </div>
-                        </div>
+                        </Link>
                     )
                 }
             </ >
