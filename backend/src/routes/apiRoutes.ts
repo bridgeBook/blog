@@ -9,7 +9,7 @@ import path from 'path'
 // 必ず最初に実行すること！
 dotenv.config({ path: path.resolve(__dirname, '../.env') })
 
-const router = express.Router()
+const router = express.Router();
 
 // 一覧取得
 router.get('/getList', async (req: Request, res: Response) => {
