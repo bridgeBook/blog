@@ -23,5 +23,5 @@ const UserSchema: Schema<IUser > = new Schema(
 )
 
 // モデルとしてエクスポート
-const Post = mongoose.model<IUser >('User', UserSchema)
-export default Post
+const User = mongoose.model<IUser >('User', UserSchema)
+export default User
