@@ -66,13 +66,16 @@ router.post('/userRegister', async (req: Request, res: Response) => {
 // ログイン
 router.post('/login', async (req: Request, res: Response) => {
     try {
-        const { email, password } = req.body;
+        const email = req.body.params.username
+        const password = req.body.params.password
 
         // ユーザーの存在確認
         const user = await User.findOne({ email });
+        console.log("取得したユーザー:", user);
         if (!user) {
+            console.log("aa")
             res.status(401).json({ error: 'ユーザーが見つかりません' });
-            return
+            return;
         }
 
         // パスワード比較
@@ -88,6 +91,7 @@ router.post('/login', async (req: Request, res: Response) => {
             process.env.JWT_SECRET as string,
             { expiresIn: '1h' }
         );
+
         res.status(200).json({ message: 'ログイン成功', token });
 
     } catch (err) {

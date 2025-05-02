@@ -1,6 +1,7 @@
 import '../index.css'
 import { Link } from "react-router-dom";
 import { useState } from 'react';
+import axios from 'axios';
 
 const Login = () => {
     // ステートの定義
@@ -19,25 +20,24 @@ const Login = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:3000/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
+            const res = await axios.post(`http://localhost:5000/api/login`, {
+                params: {
+                    username: username,
+                    password: password
+                }
             });
 
-            const data = await response.json();
+            console.log('✅ ログイン成功:', res.data.message);
+            console.log('🔐 トークン:', res.data.token);
+            alert('ログイン成功');
 
-            if (response.ok) {
-                // トークンをlocalStorageに保存
-                localStorage.setItem('token', data.token);
-                alert('ログイン成功');
-                // ログイン後に別のページに遷移させる場合など
-                // window.location.href = '/dashboard'; // ダッシュボードにリダイレクト
+        } catch (error: any) {
+            if (error.response) {
+                console.log('❌ エラー:', error.response.data.error);
+                setError(error.response.data.error || 'ログインに失敗しました');
             } else {
-                setError(data.message || 'ログインに失敗しました');
+                console.log('❌ 通信エラー:', error.message);
             }
-        } catch (err) {
-            setError('サーバーエラー: ' + err);
         }
     };
 
