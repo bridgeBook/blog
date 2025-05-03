@@ -43,6 +43,9 @@ const Login = () => {
 
     return (
         <div className="login-container">
+            <div>
+                <Link className="login" to="/">home画面に戻る</Link>
+            </div>
             <h2>ログイン</h2>
             <form onSubmit={handleLogin}>
                 <div>
@@ -66,11 +69,6 @@ const Login = () => {
                 {error && <p style={{ color: 'red' }}>{error}</p>}
                 <button type="submit">ログイン</button>
             </form>
-
-            <div>
-                ログイン画面
-                <Link className="login" to="/">home画面に戻る</Link>
-            </div>
         </div>
     );
 };

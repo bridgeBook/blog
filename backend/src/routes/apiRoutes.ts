@@ -48,7 +48,29 @@ router.post('/posts', async (req: Request, res: Response) => {
 // アカウント登録
 router.post('/userRegister', async (req: Request, res: Response) => {
     try {
-        const { email, password } = req.body
+
+        console.log(req.body.username)
+
+        const username = req.body.username
+        const email = req.body.email
+        const password = req.body.password
+
+        // ユーザーの存在確認
+        const user = await User.findOne({ username });
+        const getEmail = await User.findOne({ email });
+
+        console.log("取得したユーザー:", user);
+
+        if (user) {
+            res.status(401).json({ error: '既に存在しているユーザー名です' });
+            return;
+        }
+
+        if (getEmail) {
+            res.status(401).json({ error: '既に登録済みのメールアドレスです' });
+            return;
+        }
+
         // パスワードをハッシュ化
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -59,6 +81,7 @@ router.post('/userRegister', async (req: Request, res: Response) => {
 
         res.status(201).json({ message: 'ユーザー登録成功' });
     } catch (err) {
+        console.log(err)
         res.status(400).json({ error: '登録に失敗しました。' })
     }
 })
@@ -66,12 +89,12 @@ router.post('/userRegister', async (req: Request, res: Response) => {
 // ログイン
 router.post('/login', async (req: Request, res: Response) => {
     try {
-        const email = req.body.params.username
+        const username = req.body.params.username
         const password = req.body.params.password
 
         // ユーザーの存在確認
-        const user = await User.findOne({ email });
-        console.log("取得したユーザー:", user);
+        const user = await User.findOne({ username });
+
         if (!user) {
             console.log("aa")
             res.status(401).json({ error: 'ユーザーが見つかりません' });
@@ -87,7 +110,7 @@ router.post('/login', async (req: Request, res: Response) => {
 
         // JWT発行
         const token = jwt.sign(
-            { userId: user._id, email: user.email },
+            { userId: user._id, username: user.username },
             process.env.JWT_SECRET as string,
             { expiresIn: '1h' }
         );
