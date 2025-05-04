@@ -45,46 +45,40 @@ router.post('/posts', async (req: Request, res: Response) => {
 })
 
 
-// アカウント登録
 router.post('/userRegister', async (req: Request, res: Response) => {
+
+    const username = req.body.params.username
+    const email = req.body.params.email
+    const password = req.body.params.password
+
     try {
-
-        console.log(req.body.username)
-
-        const username = req.body.username
-        const email = req.body.email
-        const password = req.body.password
-
-        // ユーザーの存在確認
-        const user = await User.findOne({ username });
-        const getEmail = await User.findOne({ email });
-
-        console.log("取得したユーザー:", user);
-
-        if (user) {
-            res.status(401).json({ error: '既に存在しているユーザー名です' });
+        // 同一メールアドレスの重複確認
+        const existingUser = await User.findOne({ username });
+        if (existingUser) {
+            res.status(400).json({ error: '既に存在しているユーザー名です' });
             return;
         }
 
-        if (getEmail) {
-            res.status(401).json({ error: '既に登録済みのメールアドレスです' });
+        // 同一メールアドレスの重複確認
+        const existingEmail = await User.findOne({ email });
+        if (existingEmail) {
+            res.status(400).json({ error: '既に登録済みのメールアドレスです' });
             return;
         }
 
         // パスワードをハッシュ化
-        const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         // ユーザー作成
-        const newUser = new User({ email, password: hashedPassword });
+        const newUser = new User({ username, email, password: hashedPassword });
         await newUser.save();
 
-        res.status(201).json({ message: 'ユーザー登録成功' });
+        res.status(201).json({ message: 'ユーザー登録が完了しました' });
     } catch (err) {
         console.log(err)
-        res.status(400).json({ error: '登録に失敗しました。' })
+        res.status(500).json({ error: 'サーバーエラー' });
     }
-})
+});
 
 // ログイン
 router.post('/login', async (req: Request, res: Response) => {

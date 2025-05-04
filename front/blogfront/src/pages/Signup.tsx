@@ -30,9 +30,7 @@ const Signup = () => {
                 }
             });
 
-            console.log('✅ ログイン成功:', res.data.message);
-            console.log('🔐 トークン:', res.data.token);
-            alert('ログイン成功');
+            console.log('✅ 登録成功:', res.data.message);
 
         } catch (error: any) {
             if (error.response) {
@@ -43,9 +41,6 @@ const Signup = () => {
             }
         }
     };
-
-
-
 
     return (
         <div className="signup-container">
@@ -67,7 +62,7 @@ const Signup = () => {
                     <label>メールアドレス</label>
                     <input
                         type="text"
-                        value={username}
+                        value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
                     />
