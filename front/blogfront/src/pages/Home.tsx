@@ -1,5 +1,4 @@
 import '../index.css'
-import Header from '../components/Header.tsx'
 import ArticleList from '../components/ArticleList.tsx'
 
 const Home = () => {

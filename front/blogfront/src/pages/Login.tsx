@@ -1,8 +1,9 @@
 import '../index.css'
 import { Link } from "react-router-dom";
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { handleLogin } from '../components/handleLogin';
+import { useAuth } from '../contexts/AuthContext';
 
 const Login = () => {
     // ステートの定義
@@ -10,37 +11,12 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const { login } = useAuth();
 
-    // ログイン処理
-    const handleLogin = async (e: { preventDefault: () => void; }) => {
-        e.preventDefault();  // デフォルトのフォーム送信を防ぐ
-
-        // 入力値の検証（必要に応じて追加）
-        if (!username || !password) {
-            setError('ユーザー名とパスワードは必須です');
-            return;
-        }
-
-        try {
-            const res = await axios.post(`http://localhost:5000/api/login`, {
-                params: {
-                    username: username,
-                    password: password
-                }
-            });
-
-            console.log('✅ ログイン成功:', res.data);
-            localStorage.setItem('token', res.data);
-            navigate('/');
-
-        } catch (error: any) {
-            if (error.response) {
-                console.log('❌ エラー:', error.response.data.error);
-                setError(error.response.data.error || 'ログインに失敗しました');
-            } else {
-                console.log('❌ 通信エラー:', error.message);
-            }
-        }
+    // フォーム送信時の処理
+    const handleSubmit = async (e: { preventDefault: () => void; }) => {
+        e.preventDefault();
+        await handleLogin(username, password, setError, navigate, login);
     };
 
     return (
@@ -59,7 +35,7 @@ const Login = () => {
 
             <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                 <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                    <form className="space-y-6" onSubmit={handleLogin}>
+                    <form className="space-y-6" onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor="username" className="block text-sm font-medium text-gray-700">
                                 ユーザー名
