@@ -109,7 +109,7 @@ router.post('/login', async (req: Request, res: Response) => {
             { expiresIn: '1h' }
         );
 
-        res.status(200).json({ message: 'ログイン成功', token });
+        res.status(200).json({ message: 'ログイン成功', token, user });
 
     } catch (err) {
         console.log(err)

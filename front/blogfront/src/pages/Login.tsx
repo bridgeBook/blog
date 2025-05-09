@@ -2,12 +2,14 @@ import '../index.css'
 import { Link } from "react-router-dom";
 import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     // ステートの定義
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     // ログイン処理
     const handleLogin = async (e: { preventDefault: () => void; }) => {
@@ -27,9 +29,9 @@ const Login = () => {
                 }
             });
 
-            console.log('✅ ログイン成功:', res.data.message);
-            console.log('🔐 トークン:', res.data.token);
-            alert('ログイン成功');
+            console.log('✅ ログイン成功:', res.data);
+            localStorage.setItem('token', res.data);
+            navigate('/');
 
         } catch (error: any) {
             if (error.response) {

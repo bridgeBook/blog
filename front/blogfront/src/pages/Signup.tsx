@@ -16,8 +16,14 @@ const Signup = () => {
         e.preventDefault();  // デフォルトのフォーム送信を防ぐ
 
         // 入力値の検証（必要に応じて追加）
-        if (!username || !password) {
-            setError('ユーザー名とパスワードは必須です');
+        if (!username || !email || !password || !rePassword) {
+            setError('すべての項目を入力してください');
+            return;
+        }
+
+        // 入力値の検証（必要に応じて追加）
+        if (!(password === rePassword)) {
+            setError('再入力されたパスワードが異なっています');
             return;
         }
 
@@ -31,6 +37,7 @@ const Signup = () => {
             });
 
             console.log('✅ 登録成功:', res.data.message);
+            setError("")
 
         } catch (error: any) {
             if (error.response) {
@@ -80,7 +87,7 @@ const Signup = () => {
                     <label>パスワード確認</label>
                     <input
                         type="password"
-                        value={password}
+                        value={rePassword}
                         onChange={(e) => setRePassword(e.target.value)}
                         required
                     />

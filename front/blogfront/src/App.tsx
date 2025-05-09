@@ -2,7 +2,7 @@ import Home from './pages/Home.tsx'
 import Login from './pages/Login.tsx'
 import Signup from './pages/Signup.tsx'
 import PostView from './pages/PostView.tsx'
-
+import { createContext, useContext, useState, useEffect } from 'react';
 
 import {
   BrowserRouter,
@@ -11,6 +11,12 @@ import {
 } from "react-router-dom";
 
 const App = () => {
+
+  const token = localStorage.getItem('data');
+  if (token) {
+    console.log("test")
+    console.log(token)
+  }
 
   return (
     <BrowserRouter>
