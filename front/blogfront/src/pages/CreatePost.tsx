@@ -8,7 +8,7 @@ const CreatePost = () => {
     const [content, setContent] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, username } = useAuth();
 
     // 未ログインの場合はホームにリダイレクト
     if (!isAuthenticated) {
@@ -30,7 +30,8 @@ const CreatePost = () => {
                 'http://localhost:5000/api/posts',
                 {
                     title,
-                    content
+                    content,
+                    username,
                 },
                 {
                     headers: {
@@ -49,9 +50,9 @@ const CreatePost = () => {
 
     return (
         <div className="min-h-[80vh] bg-gray-50 py-8">
-            <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="bg-white shadow sm:rounded-lg">
-                    <div className="px-4 py-5 sm:p-6">
+            <div className="w-[800px] mx-auto">
+                <div className="bg-white shadow rounded-lg">
+                    <div className="p-6">
                         <h2 className="text-2xl font-bold text-gray-900 mb-6">
                             新規記事投稿
                         </h2>
@@ -67,7 +68,7 @@ const CreatePost = () => {
                                         id="title"
                                         value={title}
                                         onChange={(e) => setTitle(e.target.value)}
-                                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                                         required
                                     />
                                 </div>
@@ -83,7 +84,7 @@ const CreatePost = () => {
                                         rows={10}
                                         value={content}
                                         onChange={(e) => setContent(e.target.value)}
-                                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                                         required
                                     />
                                 </div>
@@ -104,7 +105,7 @@ const CreatePost = () => {
                             <div className="flex justify-end">
                                 <button
                                     type="submit"
-                                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                 >
                                     投稿する
                                 </button>
