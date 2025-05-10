@@ -1,54 +1,108 @@
-# React + TypeScript + Vite
+# ブログアプリケーション
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 概要
+このプロジェクトは、React + TypeScriptで構築されたブログアプリケーションです。ユーザーは記事の投稿、閲覧、編集、削除ができます。
 
-Currently, two official plugins are available:
+## 機能
+- ユーザー認証（ログイン/新規登録）
+- 記事の投稿、編集、削除
+- マークダウン形式での記事作成
+- 記事一覧表示
+- 記事詳細表示
+- レスポンシブデザイン
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 技術スタック
+### フロントエンド
+- React
+- TypeScript
+- Tailwind CSS
+- React Router
+- Axios
+- React Markdown
 
-## Expanding the ESLint configuration
+### バックエンド
+- Node.js
+- Express
+- MongoDB
+- JWT認証
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## セットアップ方法
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### 必要条件
+- Node.js (v14以上)
+- npm または yarn
+- MongoDB
+
+### インストール手順
+
+1. リポジトリのクローン
+```bash
+git clone [リポジトリURL]
+cd blog
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. フロントエンドのセットアップ
+```bash
+cd front/blogfront
+npm install
+```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+3. バックエンドのセットアップ
+```bash
+cd backend
+npm install
+```
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+4. 環境変数の設定
+`.env`ファイルを作成し、必要な環境変数を設定します。
+
+### 開発サーバーの起動
+
+1. バックエンドサーバーの起動
+```bash
+cd backend
+npm run dev
+```
+
+2. フロントエンドサーバーの起動
+```bash
+cd front/blogfront
+npm run dev
+```
+
+## 使用方法
+
+1. アプリケーションにアクセス
+   - ブラウザで `http://localhost:5173` にアクセス
+
+2. ユーザー登録/ログイン
+   - 新規ユーザーは「新規登録」からアカウントを作成
+   - 既存ユーザーは「ログイン」からアクセス
+
+3. 記事の作成
+   - ログイン後、「記事を投稿する」ボタンから新規記事を作成
+   - マークダウン形式で記事を記述可能
+
+4. 記事の閲覧
+   - トップページで記事一覧を確認
+   - 記事タイトルをクリックして詳細を表示
+
+## ディレクトリ構造
+```
+blog/
+├── front/
+│   └── blogfront/          # フロントエンド
+│       ├── src/
+│       │   ├── components/ # Reactコンポーネント
+│       │   ├── pages/      # ページコンポーネント
+│       │   ├── contexts/   # Reactコンテキスト
+│       │   └── ...
+│       └── ...
+└── backend/                # バックエンド
+    ├── src/
+    │   ├── controllers/    # コントローラー
+    │   ├── models/        # データモデル
+    │   ├── routes/        # APIルート
+    │   └── ...
+    └── ...
 ```

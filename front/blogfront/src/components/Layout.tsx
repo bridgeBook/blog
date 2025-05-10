@@ -1,11 +1,11 @@
-import { ReactNode } from 'react';
+import { ReactNode, memo } from 'react';
 import Header from './Header';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
-const Layout = ({ children }: LayoutProps) => {
+const Layout = memo(({ children }: LayoutProps) => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -21,6 +21,8 @@ const Layout = ({ children }: LayoutProps) => {
       </footer>
     </div>
   );
-};
+});
+
+Layout.displayName = 'Layout';
 
 export default Layout; 
