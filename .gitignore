@@ -1,0 +1,22 @@
+# バックエンドの環境変数ファイル
+backend/.env
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ビルド出力
+dist/
+build/
+
+# IDE設定
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS生成ファイル
+.DS_Store
+Thumbs.db 
