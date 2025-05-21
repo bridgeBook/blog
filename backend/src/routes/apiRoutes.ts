@@ -35,8 +35,8 @@ router.get('/getDetail', async (req: Request, res: Response) => {
 // 新規投稿
 router.post('/posts', async (req: Request, res: Response) => {
     try {
-        const { title, content, username } = req.body
-        const newPost = new Post({ title, content, username })
+        const { title, content, username, userid } = req.body
+        const newPost = new Post({ title, content, username, userid })
         const savedPost = await newPost.save()
         res.status(201).json(savedPost)
     } catch (err) {

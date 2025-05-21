@@ -31,7 +31,7 @@ export const handleLogin = async (
     password: string,
     setError: (error: string) => void,
     navigate: (path: string) => void,
-    login: (username: string, token: string) => void
+    login: (username: string, token: string, userid: string) => void
 ) => {
     try {
         // 入力値の検証
@@ -48,7 +48,7 @@ export const handleLogin = async (
         });
 
         console.log('✅ ログイン成功:', res.data);
-        login(username, res.data);
+        login(username, res.data, res.data.user._id);
         navigate('/');
 
     } catch (error) {

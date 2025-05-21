@@ -5,7 +5,8 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 interface AuthContextType {
     isAuthenticated: boolean;    // ログイン状態
     username: string | null;     // ユーザー名
-    login: (username: string, token: string) => void;  // ログイン関数
+    userid: string | null;     // ユーザーID
+    login: (username: string, token: string, userid: string) => void;  // ログイン関数
     logout: () => void;         // ログアウト関数
 }
 
@@ -21,15 +22,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [username, setUsername] = useState<string | null>(() => {
         return localStorage.getItem('username');
     });
+    const [userid, setUserid] = useState<string | null>(() => {
+        return localStorage.getItem('userid');
+    });
 
     // 4.2 ログイン関数
-    const login = (username: string, token: string) => {
+    const login = (username: string, token: string, userid: string) => {
         // localStorageに保存
         localStorage.setItem('token', token);
         localStorage.setItem('username', username);
+        localStorage.setItem('_id', userid);
         // 状態を更新
+        console.log(userid)
         setIsAuthenticated(true);
         setUsername(username);
+        setUserid(userid)
     };
 
     // 4.3 ログアウト関数
@@ -37,14 +44,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         // localStorageから削除
         localStorage.removeItem('token');
         localStorage.removeItem('username');
+        localStorage.removeItem('userid');
         // 状態を更新
         setIsAuthenticated(false);
         setUsername(null);
+        setUserid(null);
     };
 
     // 4.4 コンテキストの値を提供
     return (
-        <AuthContext.Provider value={{ isAuthenticated, username, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, username, userid, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
