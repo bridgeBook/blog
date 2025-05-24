@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { ButtonUI } from '../components/UI';
+import { useAuth } from '../contexts/AuthContext';
 
 interface Article {
     _id: string;
@@ -19,7 +21,11 @@ const PostView = () => {
     const [article, setArticle] = useState<Article | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const { username } = useAuth();
+    const [showLogin, setShowLogin] = useState(true)
 
+
+    // 記事詳細の取得
     useEffect(() => {
         const fetchArticle = async () => {
             try {
@@ -36,6 +42,20 @@ const PostView = () => {
         };
         fetchArticle();
     }, [id]);
+
+    // 記事の編集、削除ボタンの表示判定
+    useEffect(() => {
+        if (!username) {
+            setShowLogin(false);
+            console.log("1")
+        } else if (username === article?.username) {
+            setShowLogin(true);
+            console.log("2")
+        } else {
+            setShowLogin(false);
+            console.log("3")
+        }
+    }, [article, username])
 
     if (loading) {
         return (
@@ -65,10 +85,16 @@ const PostView = () => {
         <div className="w-[800px] mx-auto py-8">
             <div className="bg-white shadow rounded-lg overflow-hidden">
                 <div className="p-6">
-                    <div className="mb-4">
-                        <Link to="/" className="text-indigo-600 hover:text-indigo-800">
-                            ← 記事一覧に戻る
-                        </Link>
+                    <div className="mb-4 flex justify-between">
+                        <div>
+                            <Link to="/" className="text-indigo-600 hover:text-indigo-800">
+                                ← 記事一覧に戻る
+                            </Link>
+                        </div>
+                        <div className={showLogin ? "flex gap-4" : "hidden"}>
+                            <button className={`${ButtonUI}`}>編集</button>
+                            <button className={`${ButtonUI}`}>削除</button>
+                        </div>
                     </div>
                     <h1 className="text-3xl font-bold text-gray-900 mb-4">
                         {article.title}
