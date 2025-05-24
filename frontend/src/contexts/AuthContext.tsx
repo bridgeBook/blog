@@ -33,7 +33,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         localStorage.setItem('username', username);
         localStorage.setItem('_id', userid);
         // 状態を更新
-        console.log(userid)
         setIsAuthenticated(true);
         setUsername(username);
         setUserid(userid)

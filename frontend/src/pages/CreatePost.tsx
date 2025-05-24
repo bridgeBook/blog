@@ -24,8 +24,6 @@ const CreatePost = () => {
             return;
         }
 
-        console.log(userid)
-
         try {
             const token = localStorage.getItem('token');
             const response = await axios.post(

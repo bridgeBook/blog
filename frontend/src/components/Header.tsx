@@ -15,7 +15,6 @@ const Header = memo(() => {
           </span>
           <Link
             to="/create-post"
-            onClick={logout}
             className={ButtonUI}
           >
             記事を投稿する

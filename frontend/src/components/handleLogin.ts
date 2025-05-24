@@ -48,7 +48,7 @@ export const handleLogin = async (
         });
 
         console.log('✅ ログイン成功:', res.data);
-        login(username, res.data, res.data.user._id);
+        login(username, res.data.token, res.data.user._id);
         navigate('/');
 
     } catch (error) {

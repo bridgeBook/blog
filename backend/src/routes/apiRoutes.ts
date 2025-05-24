@@ -35,6 +35,13 @@ router.get('/getDetail', async (req: Request, res: Response) => {
 // 新規投稿
 router.post('/posts', async (req: Request, res: Response) => {
     try {
+        const { authorization } = req.headers
+        console.log(authorization)
+
+
+        // ここにJWTの認証処理を作りたい
+
+
         const { title, content, username, userid } = req.body
         const newPost = new Post({ title, content, username, userid })
         const savedPost = await newPost.save()
@@ -44,7 +51,25 @@ router.post('/posts', async (req: Request, res: Response) => {
     }
 })
 
+// 削除
+router.post('/delete', async (req: Request, res: Response) => {
+    try {
 
+    } catch (err) {
+
+    }
+})
+
+// 編集
+router.post('/edit', async (req: Request, res: Response) => {
+    try {
+
+    } catch (err) {
+
+    }
+})
+
+// ユーザー登録
 router.post('/userRegister', async (req: Request, res: Response) => {
 
     const username = req.body.params.username
