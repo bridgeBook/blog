@@ -7,6 +7,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ButtonUI } from '../components/UI';
 import { useAuth } from '../contexts/AuthContext';
+import deleting from '../api/deleting';
 
 interface Article {
     _id: string;
@@ -93,7 +94,7 @@ const PostView = () => {
                         </div>
                         <div className={showLogin ? "flex gap-4" : "hidden"}>
                             <button className={`${ButtonUI}`}>編集</button>
-                            <button className={`${ButtonUI}`}>削除</button>
+                            <button onClick={() => deleting(id!)} className={`${ButtonUI}`}>削除</button>
                         </div>
                     </div>
                     <h1 className="text-3xl font-bold text-gray-900 mb-4">
