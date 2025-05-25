@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv'
 import path from 'path'
+import { auth } from '../utils/auth';
 
 // 必ず最初に実行すること！
 dotenv.config({ path: path.resolve(__dirname, '../.env') })
@@ -32,15 +33,17 @@ router.get('/getDetail', async (req: Request, res: Response) => {
     }
 })
 
+
+
 // 新規投稿
 router.post('/posts', async (req: Request, res: Response) => {
     try {
         const { authorization } = req.headers
-        console.log(authorization)
-
-
-        // ここにJWTの認証処理を作りたい
-
+        
+        const result = auth(authorization);
+        if (!result.isValid) {
+            res.status(401).json({ error: result.message})
+        }
 
         const { title, content, username, userid } = req.body
         const newPost = new Post({ title, content, username, userid })
