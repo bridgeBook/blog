@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { memo, useMemo } from 'react';
+import { ButtonUI } from './UI';
 
 const Header = memo(() => {
   const { isAuthenticated, username, logout } = useAuth();
@@ -14,13 +15,13 @@ const Header = memo(() => {
           </span>
           <Link
             to="/create-post"
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className={ButtonUI}
           >
             記事を投稿する
           </Link>
           <button
             onClick={logout}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className={ButtonUI}
           >
             ログアウト
           </button>

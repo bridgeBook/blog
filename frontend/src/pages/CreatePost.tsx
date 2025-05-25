@@ -8,7 +8,7 @@ const CreatePost = () => {
     const [content, setContent] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const { isAuthenticated, username } = useAuth();
+    const { isAuthenticated, username, userid } = useAuth();
 
     // 未ログインの場合はホームにリダイレクト
     if (!isAuthenticated) {
@@ -32,6 +32,7 @@ const CreatePost = () => {
                     title,
                     content,
                     username,
+                    userid,
                 },
                 {
                     headers: {

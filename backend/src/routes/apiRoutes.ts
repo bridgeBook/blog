@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv'
 import path from 'path'
+import { auth } from '../utils/auth';
 
 // 必ず最初に実行すること！
 dotenv.config({ path: path.resolve(__dirname, '../.env') })
@@ -35,16 +36,68 @@ router.get('/getDetail', async (req: Request, res: Response) => {
 // 新規投稿
 router.post('/posts', async (req: Request, res: Response) => {
     try {
-        const { title, content, username } = req.body
-        const newPost = new Post({ title, content, username })
+        const { authorization } = req.headers
+
+        // トークンの確認処理
+        const result = auth(authorization);
+        if (!result.isValid) {
+            res.status(401).json({ error: result.message })
+        }
+
+        // DB処理
+        const { title, content, username, userid } = req.body
+        const newPost = new Post({ title, content, username, userid })
         const savedPost = await newPost.save()
         res.status(201).json(savedPost)
+
     } catch (err) {
         res.status(400).json({ error: '投稿に失敗しました' + err })
     }
 })
 
+// 削除
+router.post('/delete', async (req: Request, res: Response) => {
+    try {
+        const { id } = req.body
+        const { authorization } = req.headers
 
+        console.log(id)
+
+        // トークンの確認処理
+        const result = auth(authorization);
+        if (!result.isValid) {
+            res.status(401).json({ error: result.message })
+        }
+
+        // 記事削除処理
+        const deleted = await Post.deleteOne({ _id: id });
+        res.status(200).json(deleted)
+
+    } catch (err) {
+        res.status(400).json({ error: '削除に失敗しました' + err })
+    }
+})
+
+// 編集
+router.post('/edit', async (req: Request, res: Response) => {
+    try {
+
+        const { authorization } = req.headers
+
+        // トークンの確認処理
+        const result = auth(authorization);
+        if (!result.isValid) {
+            res.status(401).json({ error: result.message })
+        }
+
+    } catch (err) {
+
+        res.status(400).json({ error: '編集に失敗しました' + err })
+
+    }
+})
+
+// ユーザー登録
 router.post('/userRegister', async (req: Request, res: Response) => {
 
     const username = req.body.params.username

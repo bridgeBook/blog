@@ -6,6 +6,7 @@ export interface IPost extends Document {
   content: string
   createdAt: Date
   username: string
+  userid: string
 }
 
 // スキーマの定義（DBのカラム構造みたいなもの）
@@ -20,6 +21,10 @@ const PostSchema: Schema<IPost> = new Schema(
       required: true,
     },
     username: {
+      type: String,
+      required: true,
+    },
+    userid: {
       type: String,
       required: true,
     },
