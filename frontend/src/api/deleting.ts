@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-const deleting = async (id: string) => {
+const deleting = async (props: string) => {
 
     try {
         const token = localStorage.getItem('token');
         const res = await axios.post(
             'http://localhost:5000/api/delete',
             {
-                id,
+                props,
             },
             {
                 headers: {
@@ -15,11 +15,11 @@ const deleting = async (id: string) => {
                 }
             }
         );
-
         console.log('✅ 成功:', res.data.message);
-
+        return true
     } catch (error: any) {
         console.log('❌ 通信エラー:', error.message);
+        return false
     }
 };
 

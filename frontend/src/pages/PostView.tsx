@@ -82,6 +82,17 @@ const PostView = () => {
         );
     }
 
+    const onclickDeleting = async (props: string) => {
+        const result = await deleting(props);
+        if (result) {
+            // 削除成功時の処理
+            window.location.href = '/';  // ホームページにリダイレクト
+        } else {
+            // 削除失敗時の処理
+            alert('削除に失敗しました');
+        }
+    }
+
     return (
         <div className="w-[800px] mx-auto py-8">
             <div className="bg-white shadow rounded-lg overflow-hidden">
@@ -94,7 +105,7 @@ const PostView = () => {
                         </div>
                         <div className={showLogin ? "flex gap-4" : "hidden"}>
                             <button className={`${ButtonUI}`}>編集</button>
-                            <button onClick={() => deleting(id!)} className={`${ButtonUI}`}>削除</button>
+                            <button onClick={() => onclickDeleting(id!)} className={`${ButtonUI}`}>削除</button>
                         </div>
                     </div>
                     <h1 className="text-3xl font-bold text-gray-900 mb-4">
