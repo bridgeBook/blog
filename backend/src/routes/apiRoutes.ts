@@ -58,10 +58,8 @@ router.post('/posts', async (req: Request, res: Response) => {
 // 削除
 router.post('/delete', async (req: Request, res: Response) => {
     try {
-        const { id } = req.body
+        const { props } = req.body
         const { authorization } = req.headers
-
-        console.log(id)
 
         // トークンの確認処理
         const result = auth(authorization);
@@ -70,7 +68,7 @@ router.post('/delete', async (req: Request, res: Response) => {
         }
 
         // 記事削除処理
-        const deleted = await Post.deleteOne({ _id: id });
+        const deleted = await Post.deleteOne({ _id: props});
         res.status(200).json(deleted)
 
     } catch (err) {
